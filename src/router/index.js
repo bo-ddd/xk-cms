@@ -1,22 +1,39 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Layout from '@/views/Layout.vue';
 
 Vue.use(VueRouter)
 
-const routes = [
+export const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: Layout,
+    redirect: '/home',
+    children: [
+      {
+        path: '/home',
+        name: 'Home',
+        meta: {
+          title: '管理中心',
+          icon: 'el-icon-s-tools'
+        },
+        component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')
+      },
+      {
+        path: '/task',
+        name: 'Task',
+        meta: {
+          title: '任务中心',
+          icon: 'el-icon-document'
+        },
+        component: () => import(/* webpackChunkName: "task" */ '../views/task/Task.vue')
+      },
+    ]
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
   }
 ]
 
@@ -27,3 +44,10 @@ const router = new VueRouter({
 })
 
 export default router
+
+
+// {
+//   path:'/layout2',
+//   name:'Layout2',
+//   component:()=>import(/* webpackChunkName: "layout2" */ '../views/Layout2.vue')
+// },
