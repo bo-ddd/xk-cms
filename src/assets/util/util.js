@@ -10,7 +10,8 @@ export const getTime = time =>{
     let hours = d.getHours();
     let day = ['一','二','三','四','五','六','七'][d.getDay() + 1];
     let minutes = d.getMinutes();
+    minutes = minutes > 9 ? minutes : '0' + minutes;
     let seconds = d.getSeconds();
-    return year + '年' + month + '月' + date + '日' +
-        '  星期' + day + '  ' + hours + ':' + minutes + ':' + seconds ;
+    seconds = seconds > 9 ? seconds : '0' + seconds;
+    return year + '年' + month + '月' + date + '日' + '  星期' + day + '  ' + hours + ':' + minutes + ':' + seconds ;
 }

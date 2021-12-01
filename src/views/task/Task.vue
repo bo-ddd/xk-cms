@@ -1,75 +1,74 @@
 <template>
   <div class="task">
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="任务名称">
-              <span>{{ props.row.name }}</span>
-            </el-form-item>
-            <el-form-item label="时间">
-              <span>{{ props.row.shop }}</span>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
-      <el-table-column label="任务 Id" prop="id" width="100"></el-table-column>
-      <el-table-column label="任务名称" prop="taskName"></el-table-column>
-      <el-table-column label="时间" prop="createTime"></el-table-column>
-    </el-table>
+    <el-table
+    :data="tasks"
+    style="width: 100%;margin-bottom: 20px;"
+    row-key="id"
+    border
+    default-expand-all
+    size="mini"
+    :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+    <el-table-column
+      prop="id"
+      label="id"
+      sortable
+      width="100">
+    </el-table-column>
+    <el-table-column
+      prop="title"
+      label="任务名称">
+    </el-table-column>
+    <el-table-column
+      prop="createdAt"
+      width="200"
+      label="创建任务时间">
+    </el-table-column>
+    <el-table-column
+      align="center"
+      width="100"
+      label="操作">
+      <template slot-scope="scope">
+        <el-link type="primary" @click="toDetail(scope.row.id)">查看详情</el-link>
+      </template>
+    </el-table-column>
+  </el-table>
   </div>
 </template>
 
 <style>
 .task{
-    padding:20px;
+    padding:40px 40px 20px 40px;
     background:#fff;
 }
 </style>
 
 <script>
+import { mapActions } from 'vuex'
+import Task from '@/assets/js/Task'
 export default {
   data() {
     return {
-      tableData: [
-        {
-          id: "12987122",
-          taskName: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          createTime: "10333",
-        },
-        {
-          id: "12987123",
-          taskName: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          createTime: "10333",
-        },
-        {
-          id: "12987125",
-          taskName: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          createTime: "10333",
-        },
-        {
-          id: "12987126",
-          taskName: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          createTime: "10333",
-        },
-      ],
+      tasks:[]
     };
   },
+  async created(){
+    let list = await this.getTaskList(); 
+    console.log(list.rows);
+    let task = new Task(list.rows);
+    this.tasks = task.data;
+    console.log(this.tasks);
+  },
+  methods:{
+    ...mapActions(['getTaskList']),
+    toDetail(id){
+      console.log(id);
+      // this.$router.push({
+      //   name:'TaskDetail',
+      //   query:{
+      //     id
+      //   }
+      // })
+    }
+  }
 };
 </script>

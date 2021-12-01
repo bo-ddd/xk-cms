@@ -8,16 +8,16 @@ export const routes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/home',
+    redirect: '/manage',
     children: [
       {
-        path: '/home',
-        name: 'Home',
+        path: '/manage',
+        name: 'Manage',
         meta: {
           title: '管理中心',
           icon: 'el-icon-s-tools'
         },
-        component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')
+        component: () => import(/* webpackChunkName: "manage" */ '../views/Manage.vue')
       },
       {
         path: '/task',

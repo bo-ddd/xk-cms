@@ -4,27 +4,6 @@
   </div>
 </template>
 
-<script>
-let routes = [
-  {
-    path: "/home",
-    template: `<div>my name is home page</div>`,
-    children:[
-      {
-        path:'/manage',
-        template: `<div>my name is manage page</div>`,
-      }
-    ]
-  },
-  {
-    path: "/login",
-    template: `<div>my name is login page</div>`,
-  },
-];
-console.log(routes);
-</script>
-
-
 <style lang="scss">
 // 初始化样式
 #app {

@@ -98,7 +98,7 @@ export default {
       sessionStorage.setItem("token", res.data);
       if (res.status === 1) {
         this.$router.push({
-          name: "Home",
+          name: "Manage",
         });
       }else{
         this.$message({

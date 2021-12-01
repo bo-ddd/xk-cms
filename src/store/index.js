@@ -29,6 +29,9 @@ export default new Vuex.Store({
     getUserInfo(ctx,payload) {
       return  api.getUserInfo(payload);
     },
+    getTaskList(ctx,payload) {
+      return  api.getTaskList(payload);
+    },
   },
   modules: {
   }

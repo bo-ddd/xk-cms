@@ -38,4 +38,7 @@ export default  {
     getUserInfo: (params = {}) => {
         return axios.post('/user/info', params, postConfig);
     },
+    getTaskList: (params = {}) => {
+        return axios.post('/task/list', params, postConfig);
+    },
 }

@@ -6,8 +6,8 @@
           <img class="avator-img" :src="avatorImg" alt="" />
         </div>
         <div>
-          <p>{{userInfo.avatorName}}，欢迎来到学客管理平台</p>
-          <p class="mt-10">上次登录:{{loginAt}}</p>
+          <p>{{ userInfo.avatorName }}，欢迎来到学客管理平台</p>
+          <p class="mt-10">上次登录:{{ loginAt }}</p>
         </div>
       </div>
       <div class="user-r">
@@ -23,24 +23,35 @@
     </header>
     <nav>
       <div class="item">
-        <img src="@/assets/images/logo.png" alt="" />
-        <p>企业设置</p>
+        <i class="el-icon-document"></i>
+        <p>我的任务</p>
       </div>
     </nav>
-    <el-table class="table" :data="tableData" style="width: 100%">
-      <el-table-column prop="address">
+    <el-table class="table" :data="tasks" style="width: 100%">
+      <el-table-column>
         <template slot="header">
           <i class="el-icon-ice-cream-round"></i>
-          <span class="ml-5">公告</span>
-        </template>
-      </el-table-column>
-      <el-table-column class="info" width="180">
-        <template slot="header">
-          <el-link class="mr-5" icon="el-icon-edit" type="primary" :underline="false">发布公告</el-link>
-          <el-link type="primary" :underline="false">查看更多<i class="el-icon-view el-icon--right"></i> </el-link>
+          <span class="ml-5">任务列表</span>
         </template>
         <template slot-scope="scope">
-          <span class="float-r">{{ scope.row.date }}</span>
+          <span>{{ scope.row.category | category }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column class="info" width="240">
+        <template slot="header">
+          <el-link
+            class="mr-5"
+            icon="el-icon-edit"
+            type="primary"
+            :underline="false"
+            >发布公告</el-link
+          >
+          <el-link type="primary" :underline="false"
+            >查看更多<i class="el-icon-view el-icon--right"></i>
+          </el-link>
+        </template>
+        <template slot-scope="scope">
+          <span class="float-r">{{ scope.row.createdAt }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -48,53 +59,58 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { getTime } from '@/assets/util/util';
+import { mapActions } from "vuex";
+import { getTime } from "@/assets/util/util";
+import Task from "@/assets/js/Task";
 export default {
   data() {
     return {
-      userInfo:{},
-      avatorImg:'',
-      loginAt:'',
-      tableData: [
-        {
-          date: "2016-05-02 12:05-44",
-          name: "王小虎",
-          address: "[cms->登录模块]校验用户信息功能",
-        },
-        {
-          date: "2016-05-04 12:05-44",
-          name: "王小虎",
-          address: "[cms->登录模块]验证码功能",
-        },
-        {
-          date: "2016-05-01 12:05-44",
-          name: "王小虎",
-          address: "[cms->登录模块]样式",
-        },
-        {
-          date: "2016-05-03 12:05-44",
-          name: "王小虎",
-          address: "[cms->登录模块]前后端接口联调功能",
-        },
-      ],
+      userInfo: {},
+      avatorImg: "",
+      loginAt: "",
+      tasks: [],
     };
   },
-  methods:{
-    ...mapActions(['getUserInfo']),
+  filters: {
+    category(s) {
+      let arr = s.split("=>");
+      if (arr.length === 1) {
+        return "【主任务】" + s;
+      } else {
+        let ct = arr.pop();
+        return `【${arr.join("=>")}】${ct}`;
+      }
+    },
   },
-  async created(){
-    let userInfo  = await this.getUserInfo();
-    this.userInfo = userInfo.data;
-    this.avatorImg = require(`@/assets/avator/${this.userInfo.avatorImg}.png`);
-    this.loginAt = getTime(this.userInfo.loginAt);
-  }
+  methods: {
+    ...mapActions(["getUserInfo",'getTaskList']),
+    async getTaskData() {
+      let res = await this.getTaskList();
+      console.log(res.rows);
+      let task = new Task(res.rows);
+      this.tasks = task.category.sort((a, b) => b.id - a.id);
+    },
+    async getUserInfoData() {
+      let userInfo = await this.getUserInfo();
+      this.userInfo = userInfo.data;
+      this.avatorImg = require(`@/assets/avator/${this.userInfo.avatorImg}.png`);
+      this.loginAt = getTime(this.userInfo.loginAt);
+    },
+  },
+  async created() {
+    this.getUserInfoData();
+    this.getTaskData();
+  },
 };
 </script>
 
 <style scoped lang="scss">
 ::v-deep .el-table__cell {
   padding: 10px 0;
+}
+
+::v-deep .el-table_1_column_2 {
+  text-align: right;
 }
 
 .home {
@@ -144,22 +160,22 @@ export default {
     grid-template-columns: repeat(5, 1fr);
     color: #99a5c2;
     margin-top: 10px;
-    img {
-      width: 50px;
-    }
     .item {
       padding: 20px;
       display: flex;
       align-items: center;
       flex-direction: column;
       background: #fcfcfc;
+      & i {
+        font-size: 36px;
+      }
       & p {
         margin-top: 5px;
       }
     }
   }
-  & .table{
-    margin-top:40px;
+  & .table {
+    margin-top: 40px;
   }
 }
 </style>
