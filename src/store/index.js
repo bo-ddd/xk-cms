@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    routes
+    routes,
   },
   mutations: {
   },
@@ -15,11 +15,6 @@ export default new Vuex.Store({
     routes:state => state.routes,
   },
   actions: {
-    /**
-     * @description 用户登录
-     * @param username  用户名
-     * @param password 密码
-    */
     login(ctx,payload) {
       return api.login(payload);
     },
@@ -31,6 +26,12 @@ export default new Vuex.Store({
     },
     getTaskList(ctx,payload) {
       return  api.getTaskList(payload);
+    },
+    getMyTaskList(ctx,payload) {
+      return  api.getMyTaskList(payload);
+    },
+    getRankingList(ctx,payload) {
+      return  api.getRankingList(payload);
     },
   },
   modules: {

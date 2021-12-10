@@ -22,12 +22,12 @@
       </div>
     </header>
     <nav>
-      <div class="item">
+      <div class="item"  @click="navigator('MyTask')">
         <i class="el-icon-document"></i>
         <p>我的任务</p>
       </div>
     </nav>
-    <el-table class="table" :data="tasks" style="width: 100%">
+    <el-table class="table" :data="tasks" size="mini" style="width: 100%">
       <el-table-column>
         <template slot="header">
           <i class="el-icon-ice-cream-round"></i>
@@ -37,10 +37,10 @@
           <span>{{ scope.row.category | category }}</span>
         </template>
       </el-table-column>
-      <el-table-column class="info" width="240">
+      <el-table-column class="info" width="240"  align="right">
         <template slot="header">
           <el-link
-            class="mr-5"
+            class="mr-5 fs-12"
             icon="el-icon-edit"
             type="primary"
             :underline="false"
@@ -86,32 +86,30 @@ export default {
     ...mapActions(["getUserInfo",'getTaskList']),
     async getTaskData() {
       let res = await this.getTaskList();
-      console.log(res.rows);
       let task = new Task(res.rows);
       this.tasks = task.category.sort((a, b) => b.id - a.id);
     },
-    async getUserInfoData() {
+    async getUserData() {
       let userInfo = await this.getUserInfo();
       this.userInfo = userInfo.data;
       this.avatorImg = require(`@/assets/avator/${this.userInfo.avatorImg}.png`);
       this.loginAt = getTime(this.userInfo.loginAt);
     },
+    navigator(name){
+      console.log("asd")
+      this.$router.push({
+        name
+      })
+    }
   },
   async created() {
-    this.getUserInfoData();
+    this.getUserData();
     this.getTaskData();
   },
 };
 </script>
 
 <style scoped lang="scss">
-::v-deep .el-table__cell {
-  padding: 10px 0;
-}
-
-::v-deep .el-table_1_column_2 {
-  text-align: right;
-}
 
 .home {
   min-width: 800px;

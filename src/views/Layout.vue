@@ -3,7 +3,7 @@
     <el-aside class="aside" style="width: 180px">
       <img class="logo" src="@/assets/images/logo.png" alt="" />
       <h4 class="title">学客管理系统</h4>
-      <el-menu class="mt-20" @select="navigate" :default-active="defaultActive" background-color="#eceff4">
+      <el-menu class="mt-20" @select="navigate" text-color="#7c7f84" active-text-color="#303778" :default-active="defaultActive" background-color="#eceff4">
         <el-menu-item v-for="item in menu" :key="item.name" :index="item.name">
           <i :class="item.meta.icon"></i>
           <span slot="title">{{ item.meta.title }}</span>
@@ -25,11 +25,6 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  data() {
-    return {
-      defaultActive:''
-    };
-  },
   methods:{
     navigate(name){
       this.$router.push({
@@ -42,10 +37,10 @@ export default {
     menu() {
       return this.routes[0].children;
     },
+    defaultActive(){
+      return this.$route.name;
+    }
   },
-  created(){
-    this.defaultActive = this.$route.name;
-  }
 };
 </script>
 
@@ -75,7 +70,7 @@ export default {
   height: 100vh;
   & .title{
     text-align: center;
-    color:#217fdf;
+    color:#303778;
   }
   & .aside {
     border-right: 1px solid #e6e6e6;
@@ -85,7 +80,7 @@ export default {
     border-bottom: 1px solid #e6e6e6;
     display: flex;
     align-items: center;
-    color:#2aa4ed;
+    color:#303778;
   }
 }
 </style>

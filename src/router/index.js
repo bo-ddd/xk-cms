@@ -28,13 +28,22 @@ export const routes = [
         },
         component: () => import(/* webpackChunkName: "task" */ '../views/task/Task.vue')
       },
+      {
+        path: '/my/task',
+        name: 'MyTask',
+        meta: {
+          title: '我的任务',
+          icon: 'el-icon-document'
+        },
+        component: () => import(/* webpackChunkName: "mytask" */ '../views/mine/Task.vue')
+      },
     ]
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
-  }
+  },
 ]
 
 const router = new VueRouter({

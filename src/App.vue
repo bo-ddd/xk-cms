@@ -13,7 +13,18 @@
   color: #2c3e50;
 }
 
+.icon{
+  display: block;
+  width:24px;
+  height:24px;
+}
+
+.theme-c{
+  color:#303778;
+}
+
 body,
+h3,
 h4,
 h5,
 h6,
@@ -48,6 +59,10 @@ img {
 
 .mr-5 {
   margin-right: 5px;
+}
+
+.fs-12 {
+  font-size: 12px !important;
 }
 
 .fs-16 {

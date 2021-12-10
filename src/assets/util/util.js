@@ -8,7 +8,7 @@ export const getTime = time =>{
     let month = d.getMonth() + 1;
     let date = d.getDate(); 
     let hours = d.getHours();
-    let day = ['一','二','三','四','五','六','七'][d.getDay() + 1];
+    let day = ['七','一','二','三','四','五','六'][d.getDay()];
     let minutes = d.getMinutes();
     minutes = minutes > 9 ? minutes : '0' + minutes;
     let seconds = d.getSeconds();

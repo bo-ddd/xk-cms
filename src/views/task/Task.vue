@@ -15,7 +15,7 @@
       width="100">
     </el-table-column>
     <el-table-column
-      prop="title"
+      prop="category"
       label="任务名称">
     </el-table-column>
     <el-table-column
@@ -53,22 +53,11 @@ export default {
   },
   async created(){
     let list = await this.getTaskList(); 
-    console.log(list.rows);
     let task = new Task(list.rows);
     this.tasks = task.data;
-    console.log(this.tasks);
   },
   methods:{
     ...mapActions(['getTaskList']),
-    toDetail(id){
-      console.log(id);
-      // this.$router.push({
-      //   name:'TaskDetail',
-      //   query:{
-      //     id
-      //   }
-      // })
-    }
   }
 };
 </script>

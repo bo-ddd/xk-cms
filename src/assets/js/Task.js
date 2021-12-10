@@ -14,11 +14,11 @@ export default class Task {
         let res = this.target.slice();
         res.forEach(item => {
             item.children = [];
+            let p = res.find(task => task.id == item.pid);
             item.createdAt = getTime(item.createdAt);
-            let parent = res.find(task => task.id == item.pid);
-            item.category = parent ? parent.category + '=>' + item.title : item.title;
-            cb && cb(item,parent);
-        })
+            item.category = p && p.category ? p.category + "=>" + item.title : item.title;
+            cb && cb(item, p);
+        });
         return res;
     }
 }

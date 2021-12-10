@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <div class="pop">
-      <h3 class="ta-c">登录</h3>
+      <h3 class="title ta-c">登录</h3>
       <el-form ref="form" :model="form" :rules="rules" :show-message="false">
         <el-form-item prop="username">
           <el-input
@@ -29,7 +29,7 @@
             clearable
           >
           </el-input>
-          <img :src="captchaSrc" @click="initCaptcha" alt="" />
+          <img :src="captchaSrc" @click="generatorCaptcha" alt="" />
         </el-form-item>
         <el-form-item>
           <el-button
@@ -105,6 +105,7 @@ export default {
           type:'warning',
           message:res.msg
         })
+        this.generatorCaptcha();
       }
     },
     validate() {
@@ -122,12 +123,12 @@ export default {
         });
       });
     },
-    async initCaptcha() {
+    async generatorCaptcha() {
       this.captchaSrc = await this.getCaptcha();
     },
   },
   created() {
-    this.initCaptcha();
+    this.generatorCaptcha();
   },
 };
 </script>
@@ -146,6 +147,9 @@ export default {
     color: #fff;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
     padding: 0 20px;
+    & .title{
+      padding:20px;
+    }
     & .submit {
       width: 100%;
     }
