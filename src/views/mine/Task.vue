@@ -47,10 +47,15 @@
         </el-table>
       </div>
       <div class="ranking">
-        <el-table :data="ranking" size="mini" stripe style="width: 100%">
-          <el-table-column>
+        <el-table :data="rank" size="mini" stripe style="width: 100%">
+          <el-table-column align="center" width="64" type="index">
             <template slot="header">
               <h3 class="title">排行榜</h3>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <div>{{scope.row.avatorName}}</div>
             </template>
           </el-table-column>
         </el-table>
@@ -66,7 +71,7 @@ export default {
     return {
       mainTasks: [],
       process:[],
-      ranking:[],
+      rank:[],
     };
   },
   methods: {
@@ -85,7 +90,7 @@ export default {
     },
     async getRankingLiskData() {
       let res = await this.getRankingList();
-      console.log(res)
+      this.rank = res.data;
     },
     format(s) {
       return (Array(6).join(0) + s).slice(-6);

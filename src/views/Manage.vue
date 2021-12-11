@@ -157,7 +157,7 @@ export default {
     grid-gap: 20px;
     grid-template-columns: repeat(5, 1fr);
     color: #99a5c2;
-    margin-top: 10px;
+    margin-top: 20px;
     .item {
       padding: 20px;
       display: flex;
