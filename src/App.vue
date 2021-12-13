@@ -24,6 +24,8 @@
 }
 
 body,
+h1,
+h2,
 h3,
 h4,
 h5,
@@ -61,6 +63,14 @@ img {
   margin-right: 5px;
 }
 
+.mr-10{
+  margin-right: 10px;
+}
+
+.mb-10{
+  margin-bottom: 10px;
+}
+
 .fs-12 {
   font-size: 12px !important;
 }
@@ -75,5 +85,8 @@ img {
 
 .float-r {
   float: right;
+}
+.shadow{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
 </style>

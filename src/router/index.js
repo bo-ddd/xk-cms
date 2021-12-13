@@ -24,7 +24,7 @@ export const routes = [
         name: 'Task',
         meta: {
           title: '任务中心',
-          icon: 'el-icon-document'
+          icon: 'el-icon-bangzhu'
         },
         component: () => import(/* webpackChunkName: "task" */ '../views/task/Task.vue')
       },
@@ -36,6 +36,15 @@ export const routes = [
           icon: 'el-icon-document'
         },
         component: () => import(/* webpackChunkName: "mytask" */ '../views/mine/Task.vue')
+      },
+      {
+        path: '/user/center',
+        name: 'UserCenter',
+        meta: {
+          title: '用户中心',
+          icon: 'el-icon-crop'
+        },
+        component: () => import(/* webpackChunkName: "usercenter" */ '../views/mine/UserCenter.vue')
       },
     ]
   },

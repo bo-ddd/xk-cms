@@ -44,9 +44,9 @@
             icon="el-icon-edit"
             type="primary"
             :underline="false"
-            >发布公告</el-link
+            >发布任务</el-link
           >
-          <el-link type="primary" :underline="false"
+          <el-link type="primary" class="fs-12" :underline="false"
             >查看更多<i class="el-icon-view el-icon--right"></i>
           </el-link>
         </template>
