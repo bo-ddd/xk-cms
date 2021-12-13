@@ -33,6 +33,9 @@ export default new Vuex.Store({
     getRankingList(ctx,payload) {
       return  api.getRankingList(payload);
     },
+    createTask(ctx,payload) {
+      return  api.createTask(payload);
+    },
   },
   modules: {
   }

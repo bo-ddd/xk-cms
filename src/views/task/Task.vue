@@ -1,65 +1,57 @@
 <template>
   <div class="task">
     <el-table
-    :data="tasks"
-    style="width: 100%;margin-bottom: 20px;"
-    row-key="id"
-    border
-    default-expand-all
-    size="mini"
-    :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-    <el-table-column
-      prop="id"
-      label="id"
-      sortable
-      width="100">
-    </el-table-column>
-    <el-table-column
-      prop="category"
-      label="任务名称">
-    </el-table-column>
-    <el-table-column
-      prop="createdAt"
-      width="200"
-      label="创建任务时间">
-    </el-table-column>
-    <el-table-column
-      align="center"
-      width="100"
-      label="操作">
-      <template slot-scope="scope">
-        <el-link type="primary" @click="publishTask(scope.row.id)">创建任务</el-link>
-      </template>
-    </el-table-column>
-  </el-table>
-  <el-drawer
-  title="创建任务"
-  :visible.sync="dialog"
-  direction="rtl"
-  ref="drawer"
-  >
-  <div class="drawer__content">
-    <el-form :model="form">
-      <el-form-item label="任务名称" label-width="100">
-        <el-input v-model="form.title" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="任务描述">
-        <el-input v-model="form.desc" autocomplete="off"></el-input>
-      </el-form-item>
-    </el-form>
-    <div class="drawer__footer">
-      <el-button @click="cancelForm">取 消</el-button>
-      <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading">{{ loading ? '提交中 ...' : '确 定' }}</el-button>
-    </div>
-  </div>
-</el-drawer>
+      :data="tasks"
+      style="width: 100%; margin-bottom: 20px"
+      row-key="id"
+      border
+      default-expand-all
+      size="mini"
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+    >
+      <el-table-column prop="id" label="id" sortable width="100">
+      </el-table-column>
+      <el-table-column prop="category" label="任务名称"> </el-table-column>
+      <el-table-column prop="createdAt" width="200" label="创建任务时间">
+      </el-table-column>
+      <el-table-column align="center" width="100" label="操作">
+        <template slot-scope="scope">
+          <el-link type="primary" @click="publishTask(scope.row.id)"
+            >创建任务</el-link
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-drawer
+      title="创建任务"
+      :visible.sync="dialog"
+      direction="rtl"
+      ref="drawer"
+    >
+      <div class="drawer__content">
+        <el-form :model="form">
+          <el-form-item label="任务名称" label-width="100">
+            <el-input v-model="form.title" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="任务描述">
+            <el-input v-model="form.desc" autocomplete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div class="drawer__footer">
+          <el-button @click="cancelForm">取 消</el-button>
+          <el-button type="primary" @click="confirmForm" :loading="loading">{{
+            loading ? "提交中 ..." : "确 定"
+          }}</el-button>
+        </div>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
 <style>
-.task{
-    padding:40px 40px 20px 40px;
-    background:#fff;
+.task {
+  padding: 40px 40px 20px 40px;
+  background: #fff;
 }
 </style>
 
@@ -80,12 +72,15 @@ export default {
     };
   },
   async created(){
-    let list = await this.getTaskList();
-    let task = new Task(list.rows);
-    this.tasks = task.data;
+    this.getTaskListData();
   },
   methods:{
     ...mapActions(['getTaskList','createTask']),
+    async getTaskListData(){
+      let list = await this.getTaskList();
+      let task = new Task(list.rows);
+      this.tasks = task.data;
+    },
     publishTask(id){
       this.selectTaskId = id;
       this.dialog = true;
@@ -112,16 +107,32 @@ export default {
       this.loading = false;
       this.dialog = false;
       clearTimeout(this.timer);
+    },
+    async confirmForm(){
+      this.loading = false;
+      this.dialog = false;
+      let res = await this.createTask({
+        pid:this.selectTaskId,
+        ...this.form
+      });
+      if(res.status == 1){
+        this.getTaskListData();
+      }else{
+        this.$message({
+          type:"wraning",
+          message:res.msg
+        })
+      }
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-  .drawer__content{
-    padding:20px;
-  }
-  .drawer__footer{
-    text-align: right;
-  }
+.drawer__content {
+  padding: 20px;
+}
+.drawer__footer {
+  text-align: right;
+}
 </style>

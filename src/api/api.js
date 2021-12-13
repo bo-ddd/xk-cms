@@ -49,4 +49,7 @@ export default  {
     getRankingList: (params = {}) => {
         return axios.post('/tasklog/rank', params, postConfig);
     },
+    createTask: (params = {}) => {
+        return axios.post('/task/create', params, postConfig);
+    },
 }
