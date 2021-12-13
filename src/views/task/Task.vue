@@ -12,7 +12,7 @@
       <el-table-column prop="id" label="id" sortable width="100">
       </el-table-column>
       <el-table-column prop="category" label="任务名称"> </el-table-column>
-      <el-table-column prop="createdAt" width="200" label="创建任务时间">
+      <el-table-column prop="createdTime" width="200" label="创建任务时间">
       </el-table-column>
       <el-table-column align="center" width="100" label="操作">
         <template slot-scope="scope">
@@ -56,32 +56,32 @@
 </style>
 
 <script>
-import { mapActions } from 'vuex'
-import Task from '@/assets/js/Task'
+import { mapActions } from "vuex";
+import Task from "@/assets/js/Task";
 export default {
   data() {
     return {
-      tasks:[],
-      dialog:false,
-      loading:false,
-      form:{
-        title:'',
-        desc:''
+      tasks: [],
+      dialog: false,
+      loading: false,
+      form: {
+        title: "",
+        desc: "",
       },
-      selectTaskId:''
+      selectTaskId: "",
     };
   },
-  async created(){
+  async created() {
     this.getTaskListData();
   },
-  methods:{
-    ...mapActions(['getTaskList','createTask']),
-    async getTaskListData(){
+  methods: {
+    ...mapActions(["getTaskList", "createTask"]),
+    async getTaskListData() {
       let list = await this.getTaskList();
-      let task = new Task(list.rows);
+      let task = new Task(list.data.rows);
       this.tasks = task.data;
     },
-    publishTask(id){
+    publishTask(id) {
       this.selectTaskId = id;
       this.dialog = true;
     },
@@ -89,9 +89,9 @@ export default {
       if (this.loading) {
         return;
       }
-      this.$confirm('确定要提交表单吗？')
-        .then(_ => {
-          console.log(_)
+      this.$confirm("确定要提交表单吗？")
+        .then((_) => {
+          console.log(_);
           this.loading = true;
           this.timer = setTimeout(() => {
             done();
@@ -101,30 +101,32 @@ export default {
             }, 400);
           }, 2000);
         })
-        .catch(_ => { console.log(_)});
+        .catch((_) => {
+          console.log(_);
+        });
     },
     cancelForm() {
       this.loading = false;
       this.dialog = false;
       clearTimeout(this.timer);
     },
-    async confirmForm(){
+    async confirmForm() {
       this.loading = false;
       this.dialog = false;
       let res = await this.createTask({
-        pid:this.selectTaskId,
-        ...this.form
+        pid: this.selectTaskId,
+        ...this.form,
       });
-      if(res.status == 1){
+      if (res.status == 1) {
         this.getTaskListData();
-      }else{
+      } else {
         this.$message({
-          type:"wraning",
-          message:res.msg
-        })
+          type: "wraning",
+          message: res.msg,
+        });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

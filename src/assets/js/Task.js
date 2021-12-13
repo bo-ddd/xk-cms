@@ -15,7 +15,8 @@ export default class Task {
         res.forEach(item => {
             item.children = [];
             let p = res.find(task => task.id == item.pid);
-            item.createdAt = getTime(item.createdAt);
+            console.log(item);
+            item.createdTime = getTime(item.createdAt);
             item.category = p && p.category ? p.category + "=>" + item.title : item.title;
             cb && cb(item, p);
         });

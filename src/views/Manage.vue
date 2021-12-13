@@ -51,7 +51,7 @@
           </el-link>
         </template>
         <template slot-scope="scope">
-          <span class="float-r">{{ scope.row.createdAt }}</span>
+          <span class="float-r">{{ scope.row.createdTime }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -86,7 +86,7 @@ export default {
     ...mapActions(["getUserInfo",'getTaskList']),
     async getTaskData() {
       let res = await this.getTaskList();
-      let task = new Task(res.rows);
+      let task = new Task(res.data.rows);
       this.tasks = task.category.sort((a, b) => b.id - a.id);
     },
     async getUserData() {
@@ -96,7 +96,6 @@ export default {
       this.loginAt = getTime(this.userInfo.loginAt);
     },
     navigator(name){
-      console.log("asd")
       this.$router.push({
         name
       })

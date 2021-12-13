@@ -34,11 +34,20 @@ export default  {
     login: (params = {}) => {
         return axios.post('/user/login', params, postConfig);
     },
+    logout: (params = {}) => {
+        return axios.post('/user/logout', params, postConfig);
+    },
     getCaptcha: () => {
         return `${getConfig.baseURL}/captcha`;
     },
     getUserInfo: (params = {}) => {
         return axios.post('/user/info', params, postConfig);
+    },
+    updateUserInfo: (params = {}) => {
+        return axios.post('/user/update', params, postConfig);
+    },
+    updatePassword: (params = {}) => {
+        return axios.post('/user/updatePwd', params, postConfig);
     },
     getTaskList: (params = {}) => {
         return axios.post('/task/list', params, postConfig);

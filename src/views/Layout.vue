@@ -12,8 +12,14 @@
     </el-aside>
     <el-container>
       <el-header class="header">
-        <i class="mr-5" :class="$route.meta.icon"></i>
-        <span>{{ $route.meta.title }}</span>
+        <div>
+          <i class="mr-5" :class="$route.meta.icon"></i>
+          <span>{{ $route.meta.title }}</span>
+        </div>
+        <div>
+          <i class="mr-5 el-icon-switch-button"></i>
+          <el-link type="primary" @click="signOut">退出</el-link>
+        </div>
       </el-header>
       <el-main>
         <router-view></router-view>
@@ -23,9 +29,25 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   methods:{
+    ...mapActions(['logout']),
+    async signOut(){
+      sessionStorage.setItem('token',null);
+      let res = await this.logout();
+      console.log(res);
+      if(res.status == 1){
+        this.$router.push({
+          name:'Login'
+        })
+      }else{
+        this.$message({
+          type:"wraning",
+          message:res.msg
+        })
+      }
+    },
     navigate(name){
       this.$router.push({
         name
@@ -77,10 +99,16 @@ export default {
     background-color:#eceff4;
   }
   & .header {
+    min-width: 1000px;
     border-bottom: 1px solid #e6e6e6;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     color:#303778;
+    & div{
+      display: flex;
+      align-items: center;
+    }
   }
 }
 </style>

@@ -15,3 +15,10 @@ export const getTime = time =>{
     seconds = seconds > 9 ? seconds : '0' + seconds;
     return year + '年' + month + '月' + date + '日' + '  星期' + day + '  ' + hours + ':' + minutes + ':' + seconds ;
 }
+
+export const serialNumber = (s,num = 6) => (Array(num).join(0) + s).slice(-num);
+
+export default {
+    getTime,
+    serialNumber
+}

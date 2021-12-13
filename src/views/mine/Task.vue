@@ -65,8 +65,8 @@
 </template>
 
 <script>
-
 import { mapActions } from "vuex";
+import { serialNumber }  from '@/assets/util/util';
 export default {
   data() {
     return {
@@ -94,7 +94,7 @@ export default {
       this.rank = res.data;
     },
     format(s) {
-      return (Array(6).join(0) + s).slice(-6);
+      return serialNumber(s);
     },
   },
   created() {
